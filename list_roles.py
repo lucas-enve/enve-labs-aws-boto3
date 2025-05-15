@@ -1,9 +1,9 @@
 import boto3
 import csv
 
-cliente = boto3.client('iam')
+client = boto3.client('iam')
 
-response = cliente.list_roles(PathPrefix = "/" )
+response = client.list_roles(PathPrefix = "/" )
 
 with open("list_roles.csv", "w", newline="") as f:
     writer = csv.writer(f)
