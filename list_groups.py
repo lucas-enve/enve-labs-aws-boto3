@@ -1,9 +1,9 @@
 import boto3
 import csv
 
-cliente = boto3.client("iam")
+client = boto3.client("iam")
 
-response = cliente.list_groups(PathPrefix="/")
+response = client.list_groups(PathPrefix="/")
 
 with open("list_groups.csv", "w", newline="") as f:
     writer = csv.writer(f)
