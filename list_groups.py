@@ -4,7 +4,6 @@ import csv
 client = boto3.client("iam")
 
 paginator = client.get_paginator("list_groups")
-
 pages = paginator.paginate()
 
 with open("list_groups_paginator.csv", "w", newline="") as f:
