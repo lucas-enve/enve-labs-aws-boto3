@@ -1,24 +1,23 @@
 import boto3
 import csv
 
-cliente = boto3.client("iam")
+client = boto3.client("iam")
 
-response = cliente.list_groups(PathPrefix="/")
+paginator = client.get_paginator("list_groups")
 
-#for groups in response["Groups"]:
-    #print(groups)
+pages = paginator.paginate()
 
-
-with open("list_groups.csv", "w", newline="") as f:
+with open("list_groups_paginator.csv", "w", newline="") as f:
     writer = csv.writer(f)
-    writer.writerow(["GroupName", "GroupId", "Arn", "CreateDate"])
+    writer.writerow(['GroupName', 'GroupId', 'Arn', 'CreateDate'])
 
-    for groups in response["Groups"]:
-        writer.writerow([
-            groups["GroupName"],
-            groups["GroupId"],
-            groups["Arn"],
-            groups["CreateDate"]
-        ])
+    for page in pages:
+        for group in page['Groups']:
+            writer.writerow([
+                group['GroupName'],
+                group['GroupId'],
+                group['Arn'],
+                group['CreateDate']
+            ])
 
-print("saved list_groups.csv")
+print("saved list_groups_paginator.csv")

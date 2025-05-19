@@ -8,12 +8,12 @@ Scripts to audit IAM resources in AWS using boto3.
 
 This repository contains Python scripts that use the **boto3** library to retrieve IAM information from AWS, such as:
 
-- List users
-- List user groups
-- List policies
-- List roles
-- List attached policies for a specific user
-- List attached policies for a specific user group
+- List users (using paginator)
+- List user groups (using paginator)
+- List policies (using pagitator)
+- List roles (using paginator)
+- List attached policies for a specific user (using paginator and sys.argv for user)
+- List attached policies for a specific user group (using paginator and sys.argv for group name)
 
 The output is exported to CSV files.
 

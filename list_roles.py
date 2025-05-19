@@ -1,20 +1,23 @@
 import boto3
 import csv
 
-cliente = boto3.client('iam')
+client = boto3.client("iam")
 
-response = cliente.list_roles(PathPrefix = "/" )
+paginator = client.get_paginator("list_roles")
 
-with open("list_roles.csv", "w", newline="") as f:
+pages = paginator.paginate()
+
+with open("list_roles_paginator.csv", "w", newline="") as f:
     writer = csv.writer(f)
-    writer.writerow(["RoleName", "RoleId", 'Arn', 'CreateDate'])
+    writer.writerow(['RoleName', 'RoleId', 'Arn', 'CreateDate'])
 
-    for role in response['Roles']:
-        writer.writerow([
-            role['RoleName'],
-            role['RoleId'],
-            role['Arn'],
-            role['CreateDate']
-        ])
+    for page in pages:
+        for role in page['Roles']:
+            writer.writerow([
+                role['RoleName'],
+                role['RoleId'],
+                role['Arn'],
+                role['CreateDate']
+            ])
 
-print("saved list_roles.csv")
+print("saved list_roles_paginator.csv")

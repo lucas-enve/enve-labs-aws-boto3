@@ -1,22 +1,24 @@
 import boto3
 import csv
 
-allusers = boto3.client("iam")
+client = boto3.client("iam")
+
+paginator = client.get_paginator("list_users")
+
+pages = paginator.paginate()
 
 
-response = allusers.list_users(PathPrefix="/")
-
-with open("list_users.csv", "w", newline="") as f:
+with open("list_users_paginator.csv", "w", newline="") as f:
     writer = csv.writer(f)
-    writer.writerow(["UserName", "UserId", "Arn", "CreateDate"])
+    writer.writerow(['UserName', 'UserId', 'Arn', 'CreateDate'])
 
-    for user in response["Users"]:
-        writer.writerow([
-            user["UserName"],
-            user["UserId"],
-            user["Arn"],
-            user["CreateDate"]
-        ])
+    for page in pages:
+        for user in page['Users']:
+            writer.writerow([
+                user['UserName'],
+                user['UserId'],
+                user['Arn'],
+                user['CreateDate']
+            ])
 
-print("saved list_users.csv") # edit
-
+print("saved list_users_paginator.csv")

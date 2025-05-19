@@ -1,20 +1,27 @@
 import boto3
 import csv
+import sys
 
-client = boto3.client("iam")
+if len(sys.argv) != 2:
+    print("Uso: python list_attached_user_policies_paginator.py <UserName>")
+    sys.exit(1)
 
+user_name = sys.argv[1]
 
-response = client.list_attached_user_policies(UserName = "example-name")  # edit
+client = boto3.client('iam')
+paginator = client.get_paginator('list_attached_user_policies')
 
-with open("list_attached_user_policies.csv", "w", newline="") as f:
+pages = paginator.paginate(UserName=user_name)
+
+with open(f"list_attached_user_policies_paginator_{user_name}.csv", "w", newline="") as f:
     writer = csv.writer(f)
     writer.writerow(["PolicyName", "PolicyArn"])
 
-    for policy in response["AttachedPolicies"]:
-        writer.writerow([
-            policy["PolicyName"],
-            policy["PolicyArn"],
-            
-        ])
+    for page in pages:
+        for policy in page["AttachedPolicies"]:
+            writer.writerow([
+                policy["PolicyName"],
+                policy["PolicyArn"],
+            ])
 
-print("saved list_attached_user_policies.csv")  # edit
+print(f"saved list_attached_user_policies_paginator_{user_name}.csv")
