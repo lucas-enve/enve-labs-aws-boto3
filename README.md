@@ -1,4 +1,4 @@
-# enve-boto3-iam
+# enve-labs-aws-boto3
 
 ![ENVE Labs Image](https://lwfiles.mycourse.app/662bd5aeace4f91c41b88682-public/0df4dfacf02d3b01f92fd56ea50a4a3f.png)
 
@@ -6,7 +6,7 @@ Scripts to audit IAM resources in AWS using boto3.
 
 ## Description
 
-This repository contains Python scripts that use the **boto3** library to retrieve IAM information from AWS, such as:
+This repository includes Python scripts using the **boto3** library to automate and explore different AWS services, including IAM, S3, and others.
 
 - List users (using paginator)
 - List user groups (using paginator)
